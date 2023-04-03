@@ -30,7 +30,7 @@ import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 import { useDispatch } from 'react-redux'
 import actions from 'src/@core/store/actions'
 import useFormValidation from 'src/@core/hooks/useFormValidation'
-import validateLogin from './validateLogin'
+import validateLogin from '../../@core/validator/validateLogin'
 
 interface State {
   email: string

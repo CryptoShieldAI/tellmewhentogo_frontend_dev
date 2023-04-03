@@ -2,7 +2,7 @@ import cookie from "js-cookie";
 import { IncomingMessage } from "http";
 
 export const setCookie = (key: string, value: string) => {
-  if (process.browser) {
+  if ((process as any).browser) {
     cookie.set(key, value, {
       expires: 1,
       path: "/",
@@ -11,13 +11,13 @@ export const setCookie = (key: string, value: string) => {
 };
 
 export const getCookie = (key: string, req: IncomingMessage) => {
-  return process.browser
+  return (process as any).browser
     ? getCookieFromBrowser(key)
     : getCookieFromServer(key, req);
 };
 
 export const removeCookie = (key: string) => {
-  if (process.browser) {
+  if ((process as any).browser) {
     cookie.remove(key, {
       expires: 1,
     });
@@ -38,5 +38,6 @@ const getCookieFromServer = (key: string, req: IncomingMessage) => {
   if (!rawCookie) {
     return null;
   }
+
   return rawCookie.split("=")[1];
 };

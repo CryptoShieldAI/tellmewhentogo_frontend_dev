@@ -212,8 +212,8 @@ const CurrentDump = () => {
                                         <TableCell align='center'>{row.symbol}</TableCell>
                                         <TableCell align='center'>
                                             {row.signal_status === 'pump'
-                                                ? <img src='/images/pump-dump/pump.png' />
-                                                : <img src='/images/pump-dump/dump.jpg' />
+                                                ? <img src='/images/pump-dump/pump.png' alt='signal pump' />
+                                                : <img src='/images/pump-dump/dump.jpg' alt='signal dump' />
                                             }
                                         </TableCell>
                                         <TableCell align='center'>{new Date(row.signal_start_time * 1000).toLocaleTimeString()}</TableCell>

@@ -60,7 +60,7 @@ const reauthenticate = (token: string, user: User): any => {
 };
 
 // removing the token
-const deauthenticate = () => {
+const deauthenticate = (): any => {
   return async (dispatch: any) => {
     removeCookie("token");
     await Router.push("/");

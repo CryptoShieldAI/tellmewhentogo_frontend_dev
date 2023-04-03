@@ -34,7 +34,7 @@ import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
 import { useDispatch } from 'react-redux';
 import actions from 'src/@core/store/actions'
 import useFormValidation from 'src/@core/hooks/useFormValidation'
-import validateRegister from './validateRegister'
+import validateRegister from '../../@core/validator/validateRegister'
 
 interface State {
     email: string

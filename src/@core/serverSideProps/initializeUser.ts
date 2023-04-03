@@ -3,16 +3,15 @@ import getToken from "./helpers/getToken";
 import axios from "axios";
 import { AnyAction, Store } from "redux";
 import { RootState } from "../store/types/global.types";
-import { AppContextType } from "next/dist/shared/lib/utils";
-import { Exception } from "sass";
+
 
 
 // if the page is being loaded in the server, get auth token from the cookie, and update redux state:
 export default async function configUser(
-  ctx: AppContextType,
+  ctx: any,
   store: Store<RootState, AnyAction>
 ): Promise<any> {
-  const token = getToken(ctx);
+  const token = getToken(ctx, store);
   if (token) {
     try {
       const { data } = await axios.get(`${process.env.API_URL}/auth/user`, {
