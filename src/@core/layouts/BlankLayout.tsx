@@ -4,9 +4,6 @@ import Box, { BoxProps } from '@mui/material/Box'
 
 // ** Types
 import { BlankLayoutProps } from './types'
-import useToken from '../utils/useToken'
-import { useEffect } from 'react'
-import { useRouter } from 'next/router'
 
 // Styled component for Blank Layout component
 const BlankLayoutWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -31,13 +28,7 @@ const BlankLayoutWrapper = styled(Box)<BoxProps>(({ theme }) => ({
 }))
 
 const BlankLayout = ({ children }: BlankLayoutProps) => {
-  const { token, setToken, removeToken } = useToken()
-  let router = useRouter()
-  useEffect(() => {
-    if (token && router) {
-      router.push('/')
-    }
-  }, [token, router])
+
 
   return (
     <BlankLayoutWrapper className='layout-wrapper'>

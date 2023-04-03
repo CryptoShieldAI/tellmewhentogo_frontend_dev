@@ -1,21 +1,25 @@
-const API_URL = 'http://52.0.209.15/api'
 
+// const API_URL = 'http://52.0.209.15/api'
+const API_URL = process.env.API_URL;
 
 export const getBestPump = async (period: string) => {
     const data = await fetch(`${API_URL}/pump/${period}`)
         .then(data => data.json())
+
     return data
 }
 
 export const getBestDump = async (period: string) => {
     const data = await fetch(`${API_URL}/dump/${period}`)
         .then(data => data.json())
+
     return data
 }
 
 export const getCurrentSignals = async () => {
     const data = await fetch(`${API_URL}/current/signals`)
         .then(data => data.json())
+
     return data
 }
 
@@ -29,6 +33,7 @@ export const login = async (email: string, password: string) => {
             password
         })
     }).then(res => res.json())
+
     return token
 }
 
@@ -37,11 +42,13 @@ export const logout = async () => {
         method: "POST",
         mode: 'cors'
     }).then(res => res.json())
+
     return true
 }
 
 export const getSettings = async () => {
     const data = await fetch(`${API_URL}/setting`).then(res => res.json())
+
     return data
 }
 
@@ -53,6 +60,7 @@ export const settingCycleDuration = async (duration: number) => {
             duration
         })
     }).then(res => res.json())
+
     return res
 }
 
@@ -64,6 +72,7 @@ export const settingRepeatingCount = async (count: number) => {
             count
         })
     }).then(res => res.json())
+
     return res
 }
 
@@ -75,6 +84,7 @@ export const settingRepeatingBreak = async (breakCount: number) => {
             breakCount
         })
     }).then(res => res.json())
+
     return res
 }
 
@@ -86,6 +96,7 @@ export const settingRankLevel = async (levelCount: number) => {
             levelCount
         })
     }).then(res => res.json())
+
     return res
 }
 
@@ -98,6 +109,7 @@ export const settingRankLevelPercent = async (level: number, percent: number) =>
             percent
         })
     }).then(res => res.json())
+
     return res
 }
 
@@ -109,5 +121,6 @@ export const settingCryptoLists = async (cryptoList: string) => {
             cryptoList
         })
     }).then(res => res.json())
+
     return res
 }

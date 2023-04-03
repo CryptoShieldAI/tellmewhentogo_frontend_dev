@@ -1,5 +1,5 @@
 // ** MUI Imports
-import Box from '@mui/material/Box'
+import Box, { BoxProps } from '@mui/material/Box'
 import { Theme } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
@@ -16,7 +16,10 @@ import { Settings } from 'src/@core/context/settingsContext'
 // ** Components
 import ModeToggler from 'src/@core/layouts/components/shared-components/ModeToggler'
 import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
-import NotificationDropdown from 'src/@core/layouts/components/shared-components/NotificationDropdown'
+import { styled } from '@mui/material/styles'
+import { useUser } from 'src/@core/store/hook/authentication.hook'
+import { useSelector } from 'react-redux'
+import { RootState } from 'src/@core/store/types/global.types'
 
 interface Props {
   hidden: boolean
@@ -25,12 +28,18 @@ interface Props {
   saveSettings: (values: Settings) => void
 }
 
+const BalanceWrapper = styled(Box)<BoxProps>({
+  marginRight: '10px'
+})
+
 const AppBarContent = (props: Props) => {
   // ** Props
   const { hidden, settings, saveSettings, toggleNavVisibility } = props
 
   // ** Hook
   const hiddenSm = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
+
+  const user = useSelector((state: RootState) => state.authentication.user);
 
   return (
     <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -44,39 +53,13 @@ const AppBarContent = (props: Props) => {
             <Menu />
           </IconButton>
         ) : null}
-        {/* <TextField
-          size='small'
-          sx={{ '& .MuiOutlinedInput-root': { borderRadius: 4 } }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position='start'>
-                <Magnify fontSize='small' />
-              </InputAdornment>
-            )
-          }}
-        /> */}
       </Box>
       <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>
-        {/* {hiddenSm ? null : (
-          <Box
-            component='a'
-            target='_blank'
-            rel='noreferrer'
-            sx={{ mr: 4, display: 'flex' }}
-            href='https://github.com/themeselection/materio-mui-react-nextjs-admin-template-free'
-          >
-            <img
-              height={24}
-              alt='github stars'
-              src='https://img.shields.io/github/stars/themeselection/materio-mui-react-nextjs-admin-template-free?style=social'
-            />
-          </Box>
-        )} */}
+        <BalanceWrapper>Balance: {user?.balance} USD</BalanceWrapper>
         <ModeToggler settings={settings} saveSettings={saveSettings} />
-        {/* <NotificationDropdown /> */}
         <UserDropdown />
       </Box>
-    </Box>
+    </Box >
   )
 }
 

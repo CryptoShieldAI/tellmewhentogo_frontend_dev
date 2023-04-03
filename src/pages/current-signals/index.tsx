@@ -15,7 +15,9 @@ import Typography from '@mui/material/Typography'
 import { useEffect, useState } from 'react'
 import { getCurrentSignals } from 'src/service'
 import TableTrade from 'src/views/tables/TableTrade'
-
+import { wrapper } from "src/@core/store"
+import { initializeUser } from "src/@core/serverSideProps"
+import { AppContext } from 'next/app'
 
 
 const CurrentDump = () => {
@@ -260,5 +262,10 @@ const CurrentDump = () => {
 
     )
 }
+
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx: AppContext) => {
+    await initializeUser(ctx, store)
+})
 
 export default CurrentDump

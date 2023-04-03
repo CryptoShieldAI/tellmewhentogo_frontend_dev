@@ -6,6 +6,9 @@ import TableBest from "src/views/tables/TableBest"
 import { useState, useEffect } from "react"
 import { getBestDump } from "src/service"
 import TVChartContainer from "src/component/tradingViewWidget"
+import { wrapper } from "src/@core/store"
+import { initializeUser } from "src/@core/serverSideProps"
+import { AppContext } from 'next/app'
 
 const BestDump = () => {
     const [dumpList1D, setDumpList1D] = useState<any>([])
@@ -57,5 +60,9 @@ const BestDump = () => {
     )
 
 }
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx: AppContext) => {
+    await initializeUser(ctx, store)
+})
 
 export default BestDump
