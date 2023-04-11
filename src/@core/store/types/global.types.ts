@@ -2,6 +2,7 @@ import { HYDRATE } from "next-redux-wrapper";
 import { AuthState } from "./authentication.types";
 import { LoaderState } from "./loader.types";
 import { AlertState } from "./alert.types";
+import { TradeState } from "./trade.types";
 
 export type HydrateAction = {
   type: typeof HYDRATE;
@@ -12,4 +13,5 @@ export type RootState = {
   authentication: AuthState;
   loader: LoaderState;
   alert: AlertState;
+  trade: TradeState
 };

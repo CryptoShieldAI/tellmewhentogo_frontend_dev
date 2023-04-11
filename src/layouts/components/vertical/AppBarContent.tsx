@@ -52,7 +52,7 @@ const AppBarContent = (props: Props) => {
         ) : null}
       </Box>
       <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>
-        <BalanceWrapper>Balance: {user?.balance} USD</BalanceWrapper>
+        <BalanceWrapper>Balance: {user?.balance.toFixed(2)} USD</BalanceWrapper>
         <ModeToggler settings={settings} saveSettings={saveSettings} />
         <UserDropdown />
       </Box>

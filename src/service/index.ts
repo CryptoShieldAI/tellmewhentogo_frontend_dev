@@ -1,59 +1,38 @@
-
-// const API_URL = 'http://52.0.209.15/api'
-const API_URL = process.env.API_URL;
+import axios from "axios"
 
 export const getBestPump = async (period: string) => {
-    const data = await fetch(`${API_URL}/pump/${period}`)
+    const data = await fetch(`${process.env.API_URL}/pump/${period}`)
         .then(data => data.json())
 
     return data
 }
 
 export const getBestDump = async (period: string) => {
-    const data = await fetch(`${API_URL}/dump/${period}`)
+    const data = await fetch(`${process.env.API_URL}/dump/${period}`)
         .then(data => data.json())
 
     return data
 }
 
 export const getCurrentSignals = async () => {
-    const data = await fetch(`${API_URL}/current/signals`)
+    const data = await fetch(`${process.env.API_URL}/current/signals`)
         .then(data => data.json())
 
     return data
 }
 
 
-export const login = async (email: string, password: string) => {
-    const token = await fetch(`${API_URL}/login`, {
-        method: "POST",
-        mode: 'cors',
-        body: JSON.stringify({
-            email,
-            password
-        })
-    }).then(res => res.json())
 
-    return token
-}
-
-export const logout = async () => {
-    await fetch(`${API_URL}/logout`, {
-        method: "POST",
-        mode: 'cors'
-    }).then(res => res.json())
-
-    return true
-}
 
 export const getSettings = async () => {
-    const data = await fetch(`${API_URL}/setting`).then(res => res.json())
+
+    const data = await fetch(`${process.env.API_URL}/setting`).then(res => res.json())
 
     return data
 }
 
 export const settingCycleDuration = async (duration: number) => {
-    const res = await fetch(`${API_URL}/setting/cycle-duration`, {
+    const res = await fetch(`${process.env.API_URL}/setting/cycle-duration`, {
         method: 'POST',
         mode: 'cors',
         body: JSON.stringify({
@@ -65,7 +44,7 @@ export const settingCycleDuration = async (duration: number) => {
 }
 
 export const settingRepeatingCount = async (count: number) => {
-    const res = await fetch(`${API_URL}/setting/repeat-count`, {
+    const res = await fetch(`${process.env.API_URL}/setting/repeat-count`, {
         method: 'POST',
         mode: 'cors',
         body: JSON.stringify({
@@ -77,7 +56,7 @@ export const settingRepeatingCount = async (count: number) => {
 }
 
 export const settingRepeatingBreak = async (breakCount: number) => {
-    const res = await fetch(`${API_URL}/setting/repeat-break`, {
+    const res = await fetch(`${process.env.API_URL}/setting/repeat-break`, {
         method: 'POST',
         mode: 'cors',
         body: JSON.stringify({
@@ -89,7 +68,7 @@ export const settingRepeatingBreak = async (breakCount: number) => {
 }
 
 export const settingRankLevel = async (levelCount: number) => {
-    const res = await fetch(`${API_URL}/setting/level`, {
+    const res = await fetch(`${process.env.API_URL}/setting/level`, {
         method: 'POST',
         mode: 'cors',
         body: JSON.stringify({
@@ -101,7 +80,7 @@ export const settingRankLevel = async (levelCount: number) => {
 }
 
 export const settingRankLevelPercent = async (level: number, percent: number) => {
-    const res = await fetch(`${API_URL}/setting/level/percent`, {
+    const res = await fetch(`${process.env.API_URL}/setting/level/percent`, {
         method: 'POST',
         mode: 'cors',
         body: JSON.stringify({
@@ -114,7 +93,7 @@ export const settingRankLevelPercent = async (level: number, percent: number) =>
 }
 
 export const settingCryptoLists = async (cryptoList: string) => {
-    const res = await fetch(`${API_URL}/setting/cryptos`, {
+    const res = await fetch(`${process.env.API_URL}/setting/cryptos`, {
         method: 'POST',
         mode: 'cors',
         body: JSON.stringify({
