@@ -11,6 +11,7 @@ export default async function configUser(
   ctx: any,
   store: Store<RootState, AnyAction>
 ): Promise<any> {
+  
   const token = getToken(ctx, store);
   if (token) {
     try {

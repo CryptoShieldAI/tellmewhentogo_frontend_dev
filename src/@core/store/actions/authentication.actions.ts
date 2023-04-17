@@ -36,6 +36,7 @@ const loginUser = (
     try {
       const data = await axios.post(`${process.env.API_URL}/auth/login`, formData)
         .then(res => res.data);
+      
       if (data.status === 'success') {
         setCookie("token", data.auth_token)
         dispatch({ type: AUTHENTICATE, payload: { token: data.auth_token, user: data.user } })

@@ -20,6 +20,7 @@ import { AppContext } from 'next/app'
 import { useDispatch, useSelector } from 'react-redux'
 import actions from 'src/@core/store/actions'
 import { RootState } from 'src/@core/store/types/global.types'
+import axios from 'axios'
 
 const CurrentDump = () => {
     const [time, setTime] = useState(new Date())
@@ -97,20 +98,28 @@ const CurrentDump = () => {
             dispatch(actions.closeTrade(token, trade_id))
     }
 
-    const onFastBuy = (market: any) => {
-        console.log(market)
+    const onFastBuy = (symbol: string, type: string) => {
+        if (token)
+            dispatch(actions.startTrade(token, symbol, type === 'pump' ? 'buy' : 'sell', true))
     }
 
     useEffect(() => {
-        const fetchCurrentSignal = async () => {
+        const fetchCurrentSignal = async (token: string) => {
             const signals = await getCurrentSignals()
-
             setCurrentSignals(signals)
+            await dispatch(actions.getTradeList(token))
+
+            const { data } = await axios.get(`${process.env.API_URL}/auth/user`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            await dispatch(actions.reauthenticate(token, data.user))
         }
 
         // setInterval(() => fetchCurrentSignal(), 1000)
-        fetchCurrentSignal()
-    }, [currentSignals])
+        fetchCurrentSignal(token as string)
+    }, [currentSignals, token])
 
     useEffect(() => {
         const interval = setInterval(() => setTime(new Date()), 1000)
@@ -265,7 +274,7 @@ const CurrentDump = () => {
                                             </TableCell>
                                             <TableCell align='center'>
                                                 <Button variant="contained" color='primary' style={{ display: "block", width: '100%' }}
-                                                    onClick={() => onFastBuy(row)}
+                                                    onClick={() => onFastBuy(row.symbol, row.signal_status)}
                                                     disabled={currentTrade}
                                                 >
                                                     FTB
