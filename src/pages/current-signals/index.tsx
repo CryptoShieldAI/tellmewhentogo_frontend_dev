@@ -238,9 +238,60 @@ const CurrentDump = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
+                                {
+                                    tradeList.map((trade: any) => {
+                                        const row = trade.market;
+                                        const currentTrade = trade.trade;
+
+                                        return (
+                                            <TableRow key={row.symbole} sx={{ '&:last-of-type  td, &:last-of-type  th': { border: 0 } }}>
+                                                <TableCell align='center'>|{row.pi}/{row.rank_level}|</TableCell>
+                                                <TableCell align='center'>{row.symbol}</TableCell>
+                                                <TableCell align='center'>
+                                                    {row.signal_status === 'pump'
+                                                        ? <img src='/images/pump-dump/pump.png' alt='signal pump' />
+                                                        : <img src='/images/pump-dump/dump.jpg' alt='signal dump' />
+                                                    }
+                                                </TableCell>
+                                                <TableCell align='center'>{new Date(row.signal_start_time * 1000).toLocaleTimeString()}</TableCell>
+                                                <TableCell align='right'>{row.spot}</TableCell>
+                                                <TableCell align='right'>{currentTrade ? currentTrade.startPrice : row.spot}</TableCell>
+                                                <TableCell align='center' style={{ width: '150px' }}>
+                                                    <Button variant='contained' color='success' style={{ display: "block", width: '100%' }}
+                                                        onClick={startTrade(row.symbol, row.signal_status)} disabled={currentTrade}
+                                                    >
+                                                        {row.signal_status === 'pump' ? 'Buy' : 'Sell'}
+                                                    </Button>
+                                                </TableCell>
+                                                <TableCell align='right'>
+                                                    {row.spot}
+                                                </TableCell>
+                                                <TableCell align='center' style={{ width: '150px' }}>
+                                                    <Button variant="contained" color='error' style={{ display: "block", width: '100%' }}
+                                                        onClick={closeTrade(currentTrade?.id)} disabled={!currentTrade}
+                                                    >
+                                                        CLOSE
+                                                    </Button>
+                                                </TableCell>
+                                                <TableCell align='center'>
+                                                    <Button variant="contained" color='primary' style={{ display: "block", width: '100%' }}
+                                                        onClick={() => onFastBuy(row.symbol, row.signal_status)}
+                                                        disabled={currentTrade}
+                                                    >
+                                                        FTB
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        )
+                                    })
+                                }
                                 {currentSignals.map((row: any) => {
-                                    const currentTrade = tradeList.find(trade => !trade.endPrice
-                                        && trade.symbol === row.symbol)
+                                    const currentTrade = tradeList.find(trade => !trade.trade.endPrice
+                                        && trade.trade.symbol === row.symbol)
+                                    if (currentTrade) {
+
+                                        return;
+                                    }
 
                                     return (
                                         <TableRow key={row.name} sx={{ '&:last-of-type  td, &:last-of-type  th': { border: 0 } }}>
@@ -300,22 +351,30 @@ const CurrentDump = () => {
                                         <TableCell>Start Price</TableCell>
                                         <TableCell>End Time</TableCell>
                                         <TableCell>End Price</TableCell>
+                                        <TableCell>Profit</TableCell>
+
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {completedTrades.map((trade: any) => (
-                                        <TableRow key={trade.id} sx={{ '&:last-of-type  td, &:last-of-type  th': { border: 0 } }}>
-                                            <TableCell component='th' scope='row'>
-                                                {trade.symbol}
-                                            </TableCell>
-                                            <TableCell align='right'>{trade.type}</TableCell>
-                                            <TableCell align='right'>{trade.startTime}</TableCell>
-                                            <TableCell align='right'>{trade.startPrice}</TableCell>
-                                            <TableCell align='right'>{trade.endTime}</TableCell>
-                                            <TableCell align='right'>{trade.endPrice}</TableCell>
+                                    {completedTrades.map((trade: any) => {
+                                        const profit = trade.type === 'buy'
+                                            ? (trade.endPrice - trade.startPrice) / trade.startPrice * trade.amount
+                                            : (trade.startPrice - trade.endPrice) / trade.startPrice * trade.amount
 
-                                        </TableRow>
-                                    ))}
+                                        return (
+                                            <TableRow key={trade.id} sx={{ '&:last-of-type  td, &:last-of-type  th': { border: 0 } }}>
+                                                <TableCell component='th' scope='row'>
+                                                    {trade.symbol}
+                                                </TableCell>
+                                                <TableCell align='right'>{trade.type}</TableCell>
+                                                <TableCell align='right'>{trade.startTime}</TableCell>
+                                                <TableCell align='right'>{trade.startPrice}</TableCell>
+                                                <TableCell align='right'>{trade.endTime}</TableCell>
+                                                <TableCell align='right'>{trade.endPrice}</TableCell>
+                                                <TableCell style={{ color: `${profit < 0 ? 'red' : 'blue'}` }} align='right'>{profit.toFixed(2)}</TableCell>
+                                            </TableRow>
+                                        )
+                                    })}
 
                                 </TableBody>
                             </Table>
