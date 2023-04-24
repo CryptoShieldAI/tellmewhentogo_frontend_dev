@@ -84,6 +84,7 @@ code[class*='language-'] {
   outline: none;
   border: 1px solid #d9d9d9;
   width: 30%;
+  font-size: 20px;
 }
 
 .settings-wrapper .row button {
@@ -123,4 +124,139 @@ code[class*='language-'] {
 .settings-wrapper .settings-bottom button,
 .settings-wrapper .settings-bottom .applied {
   float: right;
+}
+
+.security-wrapper {
+  width: 100%;
+  text-align: left;
+}
+
+.sercurity-row {
+  display: flex;
+  align-items: center;
+  max-width: 800px;
+  justify-content: space-between;
+}
+
+.sercurity-row a {
+  text-decoration: underline;
+}
+
+.sercurity-title {
+  color: white;
+  background-color: #9155FD;
+  height: '35px';
+  padding: 3px;
+  width: 300px;
+}
+
+.value-text {
+  text-align: left;
+}
+
+.list .list-row {
+  display: flex;
+  justify-content: right;
+}
+
+.w-list-title {
+  color: white;
+  background-color: #9155FD;
+  padding: 2px 5px 2px 5px;
+  /* max-width: 140px; */
+  width: 140px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.list-text {
+  background-color: rgb(243, 240, 235);
+  padding: 5px;
+  width: 100%;
+  color: black;
+}
+
+.b-list-title {
+  color: black;
+  background-color: #9155FD;
+  padding: 2px 5px 2px 5px;
+  /* max-width: 140px; */
+  width: 140px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.notification-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.notification-wrapper .left {
+  width: 60%;
+}
+
+.notification-wrapper .right {
+  width: 40%;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.list-width {
+  width: 200px !important;
+}
+
+.bot-wrapper table tr {
+  border: 1px solid #9155FD;
+}
+
+.bot-wrapper table td {
+  border: 1px solid #9155FD;
+  text-align: center;
+}
+
+.bot-wrapper table .fir-child {
+  width: 20%;
+}
+
+.bot-wrapper table .thir-child {
+  width: 82px;
+}
+
+#bot-information {
+  margin-top: 30px;
+  width: 50%;
+}
+
+#bot-information tr,
+td {
+  border: 0px !important;
+}
+
+.information-fir-child {
+  width: 45%;
+}
+
+.modal-wrapper input {
+  border: 1px solid #9155FD;
+  font-size: 16px;
+  padding: 2px;
+}
+
+#email {
+  border: 1px solid #9155FD;
+  padding: 5px;
+  font-size: 20px;
+  border-radius: 8px;
+}
+
+#role {
+  width: 250px;
+  border: 1px solid #9155FD;
+  padding: 5px;
+  font-size: 20px;
+  border-radius: 8px;
 }
