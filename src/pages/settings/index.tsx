@@ -10,9 +10,7 @@ import BotSettings from "./bot-settings";
 import UserSettings from "./user-settings";
 import ApiSettings from "./api-settings";
 import SecuritySettings from "./security-settings";
-import { wrapper } from "src/@core/store";
-import { initializeUser } from "src/@core/serverSideProps";
-import { AppContext } from 'next/app'
+
 
 
 const Settings = () => {
@@ -60,9 +58,5 @@ const Settings = () => {
         </Box>
     )
 }
-
-export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx: AppContext) => {
-    await initializeUser(ctx, store)
-})
 
 export default Settings

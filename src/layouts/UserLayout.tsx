@@ -1,9 +1,8 @@
 // ** React Imports
-import { ReactNode, useEffect } from 'react'
-import { useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
+import { ReactNode } from 'react'
 
 // ** MUI Imports
+import Box from '@mui/material/Box'
 import { Theme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
@@ -15,13 +14,12 @@ import VerticalLayout from 'src/@core/layouts/VerticalLayout'
 import VerticalNavItems from 'src/navigation/vertical'
 
 // ** Component Import
+import UpgradeToProButton from './components/UpgradeToProButton'
 import VerticalAppBarContent from './components/vertical/AppBarContent'
 
 // ** Hook Import
 import { useSettings } from 'src/@core/hooks/useSettings'
-import { RootState } from 'src/@core/store/types/global.types';
-import { initializeUser } from 'src/@core/serverSideProps';
-import { wrapper } from 'src/@core/store';
+import { useSession } from 'next-auth/react'
 
 interface Props {
   children: ReactNode
@@ -30,14 +28,6 @@ interface Props {
 const UserLayout = ({ children }: Props) => {
   // ** Hooks
   const { settings, saveSettings } = useSettings()
-  const { auth } = useSelector((state: RootState) => state.authentication)
-  const router = useRouter()
-
-  useEffect(() => {
-    if (!auth && router) {
-      router.push('/login')
-    }
-  }, [auth, router])
 
   /**
    *  The below variable will hide the current layout menu at given screen size.
@@ -48,6 +38,20 @@ const UserLayout = ({ children }: Props) => {
    *  ! Do not change this value unless you know what you are doing. It can break the template.
    */
   const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
+
+  const UpgradeToProImg = () => {
+    return (
+      <Box sx={{ mx: 'auto' }}>
+        <a
+          target='_blank'
+          rel='noreferrer'
+          href='https://themeselection.com/products/materio-mui-react-nextjs-admin-template/'
+        >
+          <img width={230} alt='upgrade to premium' src={`/images/misc/upgrade-banner-${settings.mode}.png`} />
+        </a>
+      </Box>
+    )
+  }
 
   return (
     <VerticalLayout
@@ -72,7 +76,5 @@ const UserLayout = ({ children }: Props) => {
     </VerticalLayout>
   )
 }
-
-
 
 export default UserLayout

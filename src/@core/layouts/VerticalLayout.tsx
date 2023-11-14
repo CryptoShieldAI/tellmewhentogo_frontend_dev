@@ -18,10 +18,13 @@ import { LayoutProps } from 'src/@core/layouts/types'
 // ** Components
 import AppBar from './components/vertical/appBar'
 import Navigation from './components/vertical/navigation'
+import Footer from './components/shared-components/footer'
 import ScrollToTop from 'src/@core/components/scroll-to-top'
 
 // ** Styled Component
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import { useRouter } from 'next/router'
+import useToken from '../utils/useToken'
 
 const VerticalLayoutWrapper = styled('div')({
   height: '100%',
@@ -48,6 +51,15 @@ const ContentWrapper = styled('main')(({ theme }) => ({
 }))
 
 const VerticalLayout = (props: LayoutProps) => {
+  const { token, setToken, removeToken } = useToken()
+  const router = useRouter()
+  useEffect(() => {
+    if (!token && router) {
+
+      router.push('/login')
+    }
+  }, [token, router])
+
   // ** Props
   const { settings, children, scrollToTop } = props
 
@@ -90,6 +102,10 @@ const VerticalLayout = (props: LayoutProps) => {
             {children}
           </ContentWrapper>
 
+          {/* Footer Component */}
+          {/* <Footer {...props} /> */}
+
+          {/* Portal for React Datepicker */}
           <DatePickerWrapper sx={{ zIndex: 11 }}>
             <Box id='react-datepicker-portal'></Box>
           </DatePickerWrapper>

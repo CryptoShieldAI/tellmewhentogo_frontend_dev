@@ -21,9 +21,6 @@ import StatisticsCard from 'src/views/dashboard/StatisticsCard'
 import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
 import DepositWithdraw from 'src/views/dashboard/DepositWithdraw'
 import SalesByCountries from 'src/views/dashboard/SalesByCountries'
-import { wrapper } from 'src/@core/store'
-import { initializeUser } from 'src/@core/serverSideProps'
-import { AppContext } from 'next/app'
 
 const Dashboard = () => {
   return (
@@ -100,9 +97,5 @@ const Dashboard = () => {
     </ApexChartWrapper>
   )
 }
-
-export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx: AppContext) => {
-  await initializeUser(ctx, store)
-})
 
 export default Dashboard

@@ -7,9 +7,6 @@ import TVChartContainer from "src/component/tradingViewWidget"
 import { getBestPump } from "src/service"
 
 import TableBest from "src/views/tables/TableBest"
-import { wrapper } from "src/@core/store"
-import { initializeUser } from "src/@core/serverSideProps"
-import { AppContext } from 'next/app'
 
 const BestPump = () => {
     const [pumpList1D, setPumpList1D] = useState<any>([])
@@ -62,10 +59,5 @@ const BestPump = () => {
     )
 
 }
-
-
-export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx: AppContext) => {
-    await initializeUser(ctx, store)
-})
 
 export default BestPump
