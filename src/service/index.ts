@@ -1,4 +1,4 @@
-const API_URL = process.env.REACT_APP_API_URL
+const API_URL = "http://localhost:5001"
 
 export const getBestPump = async (period: string) => {
   const data = await fetch(`${API_URL}/pump/${period}`).then(data => data.json())
@@ -17,6 +17,7 @@ export const getCurrentSignals = async () => {
 
 export const login = async (email: string, password: string) => {
   const apiUrl = API_URL + '/auth/login'
+  console.log('loginApiUrl', apiUrl)
 
   const requestOptions: any = {
     method: 'POST',
