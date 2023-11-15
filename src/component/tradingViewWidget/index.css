@@ -1,9 +1,0 @@
-.TVChartContainer {
-  height: 100%;
-}
-
-@media screen and (max-width: 576px) {
-  .TVChartContainer {
-    height: 100%;
-  }
-}
