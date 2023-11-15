@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5001"
+const API_URL = process.env.NEXT_PUBLIC_API_URL
 
 export const getBestPump = async (period: string) => {
   const data = await fetch(`${API_URL}/pump/${period}`).then(data => data.json())
@@ -43,16 +43,6 @@ export const login = async (email: string, password: string) => {
       console.error('Error:', error)
     })
   return token
-
-  //   const token = await fetch(`${API_URL}/login`, {
-  //     method: 'POST',
-  //     mode: 'cors',
-  //     body: JSON.stringify({
-  //       email,
-  //       password
-  //     })
-  //   }).then(res => res.json())
-  //   return token
 }
 
 export const logout = async () => {
