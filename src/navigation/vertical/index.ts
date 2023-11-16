@@ -33,7 +33,7 @@ const navigation = (): VerticalNavItemsType => {
     {
       title: 'Current Signals',
       icon: AccountCogOutline,
-      path: 'current-signals'
+      path: '/current-signals'
     },
     {
       sectionTitle: ' '
