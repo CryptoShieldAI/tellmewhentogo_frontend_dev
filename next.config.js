@@ -1,6 +1,4 @@
 const path = require('path')
-const dotenv = require('dotenv');
-dotenv.config();
 
 module.exports = {
   trailingSlash: true,
@@ -14,6 +12,10 @@ module.exports = {
       ...config.resolve.alias,
       apexcharts: path.resolve(__dirname, './node_modules/apexcharts-clevision')
     }
+
     return config
+  },
+  env: {
+    API_URL: process.env.API_URL
   }
 }

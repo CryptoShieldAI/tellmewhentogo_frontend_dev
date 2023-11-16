@@ -1,5 +1,5 @@
 // ** React Imports
-import { ChangeEvent, MouseEvent, ReactNode, useCallback, useState } from 'react'
+import { ChangeEvent, MouseEvent, ReactNode, useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
@@ -11,13 +11,9 @@ import IconButton from '@mui/material/IconButton'
 import CardContent from '@mui/material/CardContent'
 import FormControl from '@mui/material/FormControl'
 import OutlinedInput from '@mui/material/OutlinedInput'
-import { styled } from '@mui/material/styles'
+import { styled, } from '@mui/material/styles'
 import MuiCard, { CardProps } from '@mui/material/Card'
 import InputAdornment from '@mui/material/InputAdornment'
-
-// ** Icons Imports
-import EyeOutline from 'mdi-material-ui/EyeOutline'
-import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
 // ** Configs
 import themeConfig from 'src/configs/themeConfig'
@@ -27,57 +23,50 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
-import { login } from 'src/service'
-import useToken from 'src/@core/utils/useToken'
-import { useRouter } from 'next/router'
+import Link from 'next/link'
+import Divider from '@mui/material/Divider'
+import EyeOutline from 'mdi-material-ui/EyeOutline'
+import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
+import { useDispatch } from 'react-redux'
+import actions from 'src/@core/store/actions'
+import useFormValidation from 'src/@core/hooks/useFormValidation'
+import validateLogin from '../../@core/validator/validateLogin'
 
 interface State {
+  email: string
   password: string
   showPassword: boolean
 }
+
+const LinkStyled = styled('a')(({ theme }) => ({
+  fontSize: '0.875rem',
+  textDecoration: 'none',
+  color: theme.palette.primary.main
+}))
+
+
 
 // ** Styled Components
 const Card = styled(MuiCard)<CardProps>(({ theme }) => ({
   [theme.breakpoints.up('sm')]: { width: '28rem' }
 }))
 
-// const LinkStyled = styled('a')(({ theme }) => ({
-//   fontSize: '0.875rem',
-//   textDecoration: 'none',
-//   color: theme.palette.primary.main
-// }))
 
-// const FormControlLabel = styled(MuiFormControlLabel)<FormControlLabelProps>(({ theme }) => ({
-//   '& .MuiFormControlLabel-label': {
-//     fontSize: '0.875rem',
-//     color: theme.palette.text.secondary
-//   }
-// }))
 
 const LoginPage = () => {
   // ** State
   const [values, setValues] = useState<State>({
+    email: '',
     password: '',
     showPassword: false
   })
-  const [email, setEmail] = useState<string>('')
-  const [error, setError] = useState<boolean>(false)
 
-  const { setToken } = useToken()
-
-  const router = useRouter()
-
-  // ** Hook
-  // const theme = useTheme()
-  // const router = useRouter()
+  const dispatch = useDispatch()
 
   const handleChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [prop]: event.target.value })
   }
 
-  const handleChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value)
-  }
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword })
@@ -87,25 +76,14 @@ const LoginPage = () => {
     event.preventDefault()
   }
 
-  const onLogin = useCallback(async () => {
-    try {
-      const token = await login(email, values.password)
+  const loginFunction = () => {
+    dispatch(actions.loginUser({
+      email: values.email,
+      password: values.password
+    }))
+  }
 
-      // Check if the response is JSON
-      if (token && typeof token === 'object') {
-        console.log('onLoginToken', token)
-        setToken(token)
-        router.push('/')
-      } else {
-        // Handle non-JSON response
-        console.error('Invalid response format')
-        setError(true)
-      }
-    } catch (err) {
-      console.log(err)
-      setError(true)
-    }
-  }, [email, values.password, router, setToken])
+  const { errors, handleSubmit } = useFormValidation(values, validateLogin, loginFunction)
 
   return (
     <Box className='content-center'>
@@ -127,30 +105,23 @@ const LoginPage = () => {
           </Box>
           <Box sx={{ mb: 6 }}>
             <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
-              Welcome to {themeConfig.templateName}! 👋🏻
+              Welcome to {themeConfig.templateName}!
             </Typography>
-            <Typography variant='body2'>Please sign-in to your account and start the adventure</Typography>
           </Box>
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-            <TextField
-              error={error}
-              autoFocus
-              fullWidth
-              id='email'
-              label='Email'
-              sx={{ marginBottom: 4 }}
-              onChange={handleChangeEmail}
-              value={email}
+            <TextField autoFocus fullWidth id='email' label='Email' sx={{ marginBottom: 4 }}
+              onChange={handleChange('email')}
+              error={Boolean(errors.email)}
             />
             <FormControl fullWidth>
               <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
               <OutlinedInput
-                error={error}
                 label='Password'
                 value={values.password}
                 id='auth-login-password'
                 onChange={handleChange('password')}
                 type={values.showPassword ? 'text' : 'password'}
+                error={Boolean(errors.password)}
                 endAdornment={
                   <InputAdornment position='end'>
                     <IconButton
@@ -165,17 +136,26 @@ const LoginPage = () => {
                 }
               />
             </FormControl>
-            <Box
-              sx={{ mb: 4, display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' }}
+            <Divider />
+            <Button
+              fullWidth
+              size='large'
+              variant='contained'
+              sx={{ marginBottom: 7 }}
+              onClick={handleSubmit}
             >
-              {/* <FormControlLabel control={<Checkbox />} label='Remember Me' /> */}
-              {/* <Link passHref href='/'>
-                <LinkStyled onClick={e => e.preventDefault()}>Forgot Password?</LinkStyled>
-              </Link> */}
-            </Box>
-            <Button fullWidth size='large' variant='contained' sx={{ marginBottom: 7 }} onClick={onLogin}>
               Login
             </Button>
+            <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <Typography variant='body2' sx={{ marginRight: 2 }}>
+                New on our platform?
+              </Typography>
+              <Typography variant='body2'>
+                <Link passHref href='/register'>
+                  <LinkStyled>Create an account</LinkStyled>
+                </Link>
+              </Typography>
+            </Box>
           </form>
         </CardContent>
       </Card>
