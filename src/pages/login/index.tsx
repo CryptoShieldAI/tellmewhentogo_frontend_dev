@@ -1,33 +1,32 @@
-// ** React Imports
 import { ChangeEvent, MouseEvent, ReactNode, useState } from 'react'
+import Link from 'next/link'
+import { useDispatch } from 'react-redux'
 
-// ** MUI Components
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import InputLabel from '@mui/material/InputLabel'
-import Typography from '@mui/material/Typography'
-import IconButton from '@mui/material/IconButton'
-import CardContent from '@mui/material/CardContent'
-import FormControl from '@mui/material/FormControl'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import { styled, } from '@mui/material/styles'
+import {
+  Box,
+  Button,
+  TextField,
+  InputLabel,
+  Typography,
+  IconButton,
+  CardContent,
+  FormControl,
+  OutlinedInput,
+  InputAdornment,
+  Divider
+} from '@mui/material'
+import { styled } from '@mui/material/styles'
 import MuiCard, { CardProps } from '@mui/material/Card'
-import InputAdornment from '@mui/material/InputAdornment'
+import EyeOutline from 'mdi-material-ui/EyeOutline'
+import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
 // ** Configs
 import themeConfig from 'src/configs/themeConfig'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
-
-// ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
-import Link from 'next/link'
-import Divider from '@mui/material/Divider'
-import EyeOutline from 'mdi-material-ui/EyeOutline'
-import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
-import { useDispatch } from 'react-redux'
+
 import actions from 'src/@core/store/actions'
 import useFormValidation from 'src/@core/hooks/useFormValidation'
 import validateLogin from '../../@core/validator/validateLogin'
@@ -44,18 +43,12 @@ const LinkStyled = styled('a')(({ theme }) => ({
   color: theme.palette.primary.main
 }))
 
-
-
-// ** Styled Components
 const Card = styled(MuiCard)<CardProps>(({ theme }) => ({
   [theme.breakpoints.up('sm')]: { width: '28rem' }
 }))
 
-
-
 const LoginPage = () => {
-  // ** State
-  const [values, setValues] = useState<State>({
+  const [loginFormValues, setLoginFormValues] = useState<State>({
     email: '',
     password: '',
     showPassword: false
@@ -64,12 +57,11 @@ const LoginPage = () => {
   const dispatch = useDispatch()
 
   const handleChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [prop]: event.target.value })
+    setLoginFormValues({ ...loginFormValues, [prop]: event.target.value })
   }
 
-
   const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword })
+    setLoginFormValues({ ...loginFormValues, showPassword: !loginFormValues.showPassword })
   }
 
   const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
@@ -77,13 +69,15 @@ const LoginPage = () => {
   }
 
   const loginFunction = () => {
-    dispatch(actions.loginUser({
-      email: values.email,
-      password: values.password
-    }))
+    dispatch(
+      actions.loginUser({
+        email: loginFormValues.email,
+        password: loginFormValues.password
+      })
+    )
   }
 
-  const { errors, handleSubmit } = useFormValidation(values, validateLogin, loginFunction)
+  const { errors, handleSubmit } = useFormValidation(loginFormValues, validateLogin, loginFunction)
 
   return (
     <Box className='content-center'>
@@ -103,24 +97,33 @@ const LoginPage = () => {
               {themeConfig.templateName}
             </Typography>
           </Box>
+
           <Box sx={{ mb: 6 }}>
             <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
               Welcome to {themeConfig.templateName}!
             </Typography>
           </Box>
+
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-            <TextField autoFocus fullWidth id='email' label='Email' sx={{ marginBottom: 4 }}
+            <TextField
+              autoFocus
+              fullWidth
+              id='email'
+              label='Email'
+              sx={{ marginBottom: 4 }}
               onChange={handleChange('email')}
               error={Boolean(errors.email)}
             />
+
             <FormControl fullWidth>
               <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
+
               <OutlinedInput
                 label='Password'
-                value={values.password}
+                value={loginFormValues.password}
                 id='auth-login-password'
                 onChange={handleChange('password')}
-                type={values.showPassword ? 'text' : 'password'}
+                type={loginFormValues.showPassword ? 'text' : 'password'}
                 error={Boolean(errors.password)}
                 endAdornment={
                   <InputAdornment position='end'>
@@ -130,26 +133,24 @@ const LoginPage = () => {
                       onMouseDown={handleMouseDownPassword}
                       aria-label='toggle password visibility'
                     >
-                      {values.showPassword ? <EyeOutline /> : <EyeOffOutline />}
+                      {loginFormValues.showPassword ? <EyeOutline /> : <EyeOffOutline />}
                     </IconButton>
                   </InputAdornment>
                 }
               />
             </FormControl>
+
             <Divider />
-            <Button
-              fullWidth
-              size='large'
-              variant='contained'
-              sx={{ marginBottom: 7 }}
-              onClick={handleSubmit}
-            >
+
+            <Button fullWidth size='large' variant='contained' sx={{ marginBottom: 7 }} onClick={handleSubmit}>
               Login
             </Button>
+
             <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
               <Typography variant='body2' sx={{ marginRight: 2 }}>
                 New on our platform?
               </Typography>
+
               <Typography variant='body2'>
                 <Link passHref href='/register'>
                   <LinkStyled>Create an account</LinkStyled>
