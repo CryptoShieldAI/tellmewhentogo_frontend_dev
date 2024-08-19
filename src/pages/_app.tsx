@@ -24,7 +24,6 @@ import { SettingsConsumer, SettingsProvider } from 'src/@core/context/settingsCo
 // ** Utils Imports
 import { createEmotionCache } from 'src/@core/utils/create-emotion-cache'
 
-
 // ** React Perfect Scrollbar Style
 import 'react-perfect-scrollbar/dist/css/styles.css'
 
@@ -33,11 +32,10 @@ import '../../styles/globals.css'
 import { wrapper } from 'src/@core/store'
 import { Provider } from 'react-redux'
 
-
 // ** Extend App Props with Emotion
 type ExtendedAppProps = AppProps & {
   Component: NextPage
-  emotionCache: EmotionCache,
+  emotionCache: EmotionCache
 }
 
 const clientSideEmotionCache = createEmotionCache()
@@ -61,7 +59,7 @@ const App = ({ Component, ...rest }: ExtendedAppProps) => {
   const { emotionCache = clientSideEmotionCache, pageProps } = props
 
   // Variables
-  const getLayout = Component.getLayout ?? (page => <UserLayout>{page}</UserLayout>)
+  const getLayout = Component.getLayout || (page => <UserLayout>{page}</UserLayout>)
 
   return (
     <Provider store={store}>
@@ -74,24 +72,19 @@ const App = ({ Component, ...rest }: ExtendedAppProps) => {
           />
           <meta name='keywords' content='Material Design, MUI, Admin Template, React Admin Template' />
           <meta name='viewport' content='initial-scale=1, width=device-width' />
-          <script async type='text/javascript' src="/charting_library.min.js" />
-          <script async src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+          <script async type='text/javascript' src='/charting_library.min.js' />
+          <script async src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js'></script>
         </Head>
         <SettingsProvider>
           <SettingsConsumer>
-
             {({ settings }) => {
               return <ThemeComponent settings={settings}>{getLayout(<Component {...pageProps} />)}</ThemeComponent>
             }}
           </SettingsConsumer>
         </SettingsProvider>
-
       </CacheProvider>
     </Provider>
-
-
   )
 }
 
-
-export default App;
+export default App
