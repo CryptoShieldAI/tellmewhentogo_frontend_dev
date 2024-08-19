@@ -63,7 +63,6 @@ const MenuItemTextMetaWrapper = styled(Box)<BoxProps>({
 })
 
 const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }: Props) => {
-  console.log('@@@@@@@@@@@@', item, item.path)
   // ** Hooks
   const router = useRouter()
 
