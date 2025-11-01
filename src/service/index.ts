@@ -37,7 +37,7 @@ export const settingCycleDuration = async (duration: number) => {
         mode: 'cors',
         body: JSON.stringify({
             duration
-        })
+        }),\n        headers: {\n            'Content-Type': 'application/json'\n        }
     }).then(res => res.json())
 
     return res
@@ -49,7 +49,7 @@ export const settingRepeatingCount = async (count: number) => {
         mode: 'cors',
         body: JSON.stringify({
             count
-        })
+        }),\n        headers: {\n            'Content-Type': 'application/json'\n        }
     }).then(res => res.json())
 
     return res
@@ -61,7 +61,7 @@ export const settingRepeatingBreak = async (breakCount: number) => {
         mode: 'cors',
         body: JSON.stringify({
             breakCount
-        })
+        }),\n        headers: {\n            'Content-Type': 'application/json'\n        }
     }).then(res => res.json())
 
     return res
@@ -73,7 +73,7 @@ export const settingRankLevel = async (levelCount: number) => {
         mode: 'cors',
         body: JSON.stringify({
             levelCount
-        })
+        }),\n        headers: {\n            'Content-Type': 'application/json'\n        }
     }).then(res => res.json())
 
     return res
@@ -86,7 +86,7 @@ export const settingRankLevelPercent = async (level: number, percent: number) =>
         body: JSON.stringify({
             level,
             percent
-        })
+        }),\n        headers: {\n            'Content-Type': 'application/json'\n        }
     }).then(res => res.json())
 
     return res
@@ -98,7 +98,7 @@ export const settingCryptoLists = async (cryptoList: string) => {
         mode: 'cors',
         body: JSON.stringify({
             cryptoList
-        })
+        }),\n        headers: {\n            'Content-Type': 'application/json'\n        }
     }).then(res => res.json())
 
     return res
