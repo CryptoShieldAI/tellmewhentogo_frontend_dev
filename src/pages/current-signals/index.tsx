@@ -228,7 +228,7 @@ const CurrentDump = () => {
                         <Table sx={{ minWidth: 200 }} size='small' aria-label='a dump table'>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align='center'>(PI).</TableCell>
+                                    <TableCell align='center'>VI (1-5)</TableCell>
                                     <TableCell align='center'>Name</TableCell>
                                     <TableCell align='center'>Type</TableCell>
                                     <TableCell align='center'>Start Time</TableCell>
@@ -244,8 +244,8 @@ const CurrentDump = () => {
                                         const currentTrade = trade.trade;
 
                                         return (
-                                            <TableRow key={row.symbole} sx={{ '&:last-of-type  td, &:last-of-type  th': { border: 0 } }}>
-                                                <TableCell align='center'>|{row.pi}/{row.rank_level}|</TableCell>
+                                            <TableRow key={row.symbol} sx={{ '&:last-of-type  td, &:last-of-type  th': { border: 0 } }}>
+                                                <TableCell align='center'>{row.pi}</TableCell>
                                                 <TableCell align='center'>{row.symbol}</TableCell>
                                                 <TableCell align='center'>
                                                     {row.signal_status === 'pump'
@@ -294,8 +294,8 @@ const CurrentDump = () => {
                                     }
 
                                     return (
-                                        <TableRow key={row.name} sx={{ '&:last-of-type  td, &:last-of-type  th': { border: 0 } }}>
-                                            <TableCell align='center'>|{row.pi}/{row.rank_level}|</TableCell>
+                                        <TableRow key={row.symbol} sx={{ '&:last-of-type  td, &:last-of-type  th': { border: 0 } }}>
+                                            <TableCell align='center'>{row.pi}</TableCell>
                                             <TableCell align='center'>{row.symbol}</TableCell>
                                             <TableCell align='center'>
                                                 {row.signal_status === 'pump'
